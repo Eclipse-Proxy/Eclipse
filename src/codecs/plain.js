@@ -1,8 +1,8 @@
 const plain = {
-    encode: (url) => {
+    encode: (url = "") => {
         return encodeURIComponent(url);
     },
-    decode: (url) => {
+    decode: (url = "") => {
         return decodeURIComponent(url);
     },
 };
