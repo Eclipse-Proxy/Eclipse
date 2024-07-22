@@ -18,6 +18,9 @@ function html(code, origin) {
         addNode(node);
     }
 
+
+    const scripts = ["client", "rewrite", "config", "codecs"];
+
     const urlAttributes = ["href", "src", "action", "formaction", "ping", "profile", "movie", "poster", "background", "data"];
 
     //Todo: Better rewrites for "http-equiv"
@@ -34,6 +37,18 @@ function html(code, origin) {
     const cssElements = ["style"];
 
     const javascriptElements = ["script"];
+
+    const head = elements.filter((elem) => elem.tagName && elem.tagName == "head")[0];
+    for (let script of scripts) {
+        head.childNodes.unshift({
+            tagName: "script",
+            nodeName: "script",
+            childNodes: [],
+            attrs: [
+                { name: "src", value: location.origin + self.__eclipse$config[script] },
+            ],
+        })
+    }
 
     for (let attr of urlAttributes) {
         let hasAttributes = elements.filter((elem) => elem.attrs);

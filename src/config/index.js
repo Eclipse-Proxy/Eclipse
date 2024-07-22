@@ -5,4 +5,5 @@ self.__eclipse$config = {
     config: "/eclipse/eclipse.config.js",
     rewrite: "/eclipse/eclipse.rewrite.js",
     worker: "/eclipse/eclipse.worker.js",
+    client: "/eclipse/eclipse.client.js",
 };

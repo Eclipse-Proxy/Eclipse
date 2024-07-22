@@ -12,7 +12,7 @@ self.EclipseServiceWorker = class EclipseServiceWorker {
             return await fetch(request);
         }
 
-        const files = ["codecs", "config", "rewrite", "worker"];
+        const files = ["codecs", "config", "rewrite", "worker", "client"];
 
         for (let file of files) {
             if (request.url == location.origin + self.__eclipse$config[file]) {
