@@ -40,9 +40,11 @@ self.EclipseServiceWorker = class EclipseServiceWorker {
 
             let body;
             if (response.body) {
+                //Only rewrites when added with a script/style tag etc.
                 switch (request.destination) {
                     case "iframe":
                     case "document":
+                        //Maybe add more content-types to debug rewriting
                         if (responseHeaders.get("content-type").startsWith("text/html")) {
                             body = self.__eclipse$rewrite.html(await response.text());
                         } else {
