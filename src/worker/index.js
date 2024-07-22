@@ -43,9 +43,12 @@ self.EclipseServiceWorker = class EclipseServiceWorker {
                 switch (request.destination) {
                     case "iframe":
                     case "document":
-                        //Todo: Add more content-types. I don't think rewrites work with fetch.
                         if (responseHeaders.get("content-type").startsWith("text/html")) {
                             body = self.__eclipse$rewrite.html(await response.text(), request.url);
+                        } else if (responseHeaders.get("content-type").startsWith("text/css")) {
+                            body = self.__eclipse$rewrite.css(await response.text(), "stylesheet", request.url);
+                        } else if (responseHeaders.get("content-type").startsWith("text/javascript") || responseHeaders.get("content-type").startsWith("application/javascript")) {
+                            body = self.__eclipse$rewrite.javascript(await response.text(), request.url);
                         } else {
                             body = response.body;
                         }
@@ -63,7 +66,15 @@ self.EclipseServiceWorker = class EclipseServiceWorker {
                         //Todo
                         body = await response.text();
                     default:
-                        body = response.body;
+                        if (responseHeaders.get("content-type").startsWith("text/html")) {
+                            body = self.__eclipse$rewrite.html(await response.text(), request.url);
+                        } else if (responseHeaders.get("content-type").startsWith("text/css")) {
+                            body = self.__eclipse$rewrite.css(await response.text(), "stylesheet", request.url);
+                        } else if (responseHeaders.get("content-type").startsWith("text/javascript") || responseHeaders.get("content-type").startsWith("application/javascript")) {
+                            body = self.__eclipse$rewrite.javascript(await response.text(), request.url);
+                        } else {
+                            body = response.body;
+                        }
                         break;
                 }
             }
