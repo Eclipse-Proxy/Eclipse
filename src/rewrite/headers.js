@@ -20,16 +20,8 @@ const cspHeaders = [
 
 const urlHeaders = ["location", "content-location", "referer"];
 
-const requestHeaders = ["host", "origin", "referrer"];
-
 function request(oldHeaders) {
     let newHeaders = new Headers(oldHeaders);
-
-    for (let requestHeader of requestHeaders) {
-        if (newHeaders.has(requestHeader)) {
-            newHeaders.set(requestHeader, self.__eclipse$config.codec.encode(newHeaders.get(requestHeader)));
-        }
-    }
 
     return newHeaders;
 }

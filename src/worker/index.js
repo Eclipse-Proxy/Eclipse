@@ -8,27 +8,76 @@ self.EclipseServiceWorker = class EclipseServiceWorker {
         return request.url.startsWith(location.origin + self.__eclipse$config.prefix);
     }
     async fetch({ request }) {
-        const url = self.__eclipse$rewrite.url.decode(request.url)
+        if (!request.url.startsWith(location.origin + self.__eclipse$config.prefix)) {
+            return await fetch(request);
+        }
 
-        const requestHeaders = self.__eclipse$rewrite.headers.request(Object.assign({}, request.headers));
+        const files = ["codecs", "config", "rewrite", "worker"];
 
-        const response = await this.client.fetch(url, {
-            method: request.method,
-            body: request.body,
-            headers: requestHeaders,
-            credentials: "omit",
-            mode: request.mode === "cors" ? request.mode : "same-origin",
-            cache: request.cache,
-            redirect: request.redirect,
-            duplex: "half",
-        });
+        for (let file of files) {
+            if (request.url == location.origin + self.__eclipse$config[file]) {
+                return await fetch(request);
+            }
+        }
 
-        const responseHeaders = self.__eclipse$rewrite.headers.response(response.rawHeaders);
+        try {
+            const url = self.__eclipse$rewrite.url.decode(request.url);
 
-        return new Response(response.body, {
-            headers: responseHeaders,
-            status: response.status,
-            statusText: response.statusText,
-        });
+            const requestHeaders = self.__eclipse$rewrite.headers.request(Object.assign({}, request.headers));
+
+            const response = await this.client.fetch(url, {
+                method: request.method,
+                body: request.body,
+                headers: requestHeaders,
+                credentials: "omit",
+                mode: request.mode === "cors" ? request.mode : "same-origin",
+                cache: request.cache,
+                redirect: request.redirect,
+                duplex: "half",
+            });
+
+            const responseHeaders = self.__eclipse$rewrite.headers.response(response.rawHeaders);
+
+            let body;
+            if (response.body) {
+                switch (request.destination) {
+                    case "iframe":
+                    case "document":
+                        if (responseHeaders.get("content-type").startsWith("text/html")) {
+                            body = self.__eclipse$rewrite.html(await response.text());
+                        } else {
+                            body = response.body;
+                        }
+                        break;
+                    case "script":
+                        body = self.__eclipse$rewrite.javascript(await response.text());
+                        break;
+                    case "style":
+                        body = self.__eclipse$rewrite.css(await response.text());
+                        break;
+                    case "sharedworker":
+                    case "worker":
+                        //Todo
+                        body = await response.text();
+                        break;
+                    default:
+                        body = response.body;
+                        break;
+                }
+            }
+
+            return new Response(body, {
+                headers: responseHeaders,
+                status: response.status,
+                statusText: response.statusText,
+            });
+        } catch (error) {
+            return new Response(error, {
+                headers: {
+                    "content-type": "text/plain",
+                },
+                status: 500,
+            });
+        }
     }
 }

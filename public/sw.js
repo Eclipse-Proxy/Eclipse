@@ -10,7 +10,7 @@ async function handleRequest(e) {
         return await eclipse.fetch(e);
     }
 
-    return await fetch(e.request)
+    return await fetch(e.request);
 }
 
 self.addEventListener("fetch", (e) => {
