@@ -4,7 +4,8 @@
   "description": "An interception web proxy.",
   "type": "module",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "build": "rspack build"
   },
   "author": "Nebelung",
   "license": "AGPL-3.0-only",
