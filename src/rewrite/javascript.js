@@ -12,14 +12,26 @@ function javascript(code, origin) {
 
         const globals = ["window", "self", "globalThis", "this", "parent", "top", "location", "document"];
 
-        function traverse(node) {
+        function shouldReplaceIdentifier(node, parent) {
+            if (!globals.includes(node.name)) {
+                return false;
+            }
+
+            if (parent && (parent.type == "VariableDeclarator" || parent.type == "FunctionDeclaration" || parent.type == "FunctionExpression" || parent.type == "ArrowFunctionExpression")) {
+                return false;
+            }
+
+            return true;
+        }
+
+        function traverse(node, parent = null) {
             if (!node) return;
 
-            if (node.type == "Identifier" && globals.includes(node.name)) {
+            if (node.type == "Identifier" && shouldReplaceIdentifier(node, parent)) {
                 node.name = `__eclipse$scope(${node.name})`;
             }
 
-            if (node.type == "ImportDeclaration") {
+            if (["ImportDeclaration", "ExportNamedDeclaration", "ExportAllDeclaration"].includes(node.name) && node.source) {
                 node.source.value = self.__eclipse$rewrite.url.encode(node.source.value, origin);
             }
 
@@ -31,7 +43,7 @@ function javascript(code, origin) {
 
             for (let key in node) {
                 if (node[key] && typeof node[key] == "object") {
-                    traverse(node[key]);
+                    traverse(node[key], node);
                 }
             }
         }
