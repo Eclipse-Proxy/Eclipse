@@ -20,13 +20,13 @@ const cspHeaders = [
 
 const urlHeaders = ["location", "content-location", "referer"];
 
-function request(oldHeaders) {
+function request(oldHeaders, origin) {
     let newHeaders = new Headers(oldHeaders);
 
     return newHeaders;
 }
 
-function response(oldHeaders) {
+function response(oldHeaders, origin) {
     let newHeaders = new Headers(oldHeaders);
 
     for (let cspHeader of cspHeaders) {
@@ -37,7 +37,7 @@ function response(oldHeaders) {
 
     for (let urlHeader of urlHeaders) {
         if (newHeaders.has(urlHeader)) {
-            newHeaders.set(urlHeader, self.__eclipse$config.codec.encode(newHeaders.get(urlHeader)));
+            newHeaders.set(urlHeader, self.__eclipse$config.codec.encode(newHeaders.get(urlHeader), origin));
         }
     }
 

@@ -1,4 +1,4 @@
-function javascript(code) {
+function javascript(code, origin) {
     return code;
 }
 

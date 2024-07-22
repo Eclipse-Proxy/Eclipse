@@ -1,12 +1,11 @@
-function encode(url) {
+function encode(url, origin) {
     if (url.startsWith("javascript:")) {
         return self.__eclipse$rewrite.javascript(url);
     } else if (/^(#|about|data|mailto|blob)/.test(url)) {
         return url;
     } else {
-        if (location.pathname.startsWith(self.__eclipse$config.prefix)) {
-            let origin = self.__eclipse$rewrite.url.decode(location.href).origin;
-            url = new URL(url, origin).toString();
+        if (origin) {
+            url = new URL(url, self.__eclipse$rewrite.url.decode(origin)).toString();
         }
 
         return location.origin + self.__eclipse$config.prefix + self.__eclipse$config.codec.encode(url);

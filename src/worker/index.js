@@ -23,7 +23,7 @@ self.EclipseServiceWorker = class EclipseServiceWorker {
         try {
             const url = self.__eclipse$rewrite.url.decode(request.url);
 
-            const requestHeaders = self.__eclipse$rewrite.headers.request(Object.assign({}, request.headers));
+            const requestHeaders = self.__eclipse$rewrite.headers.request(Object.assign({}, request.headers), request.url);
 
             const response = await this.client.fetch(url, {
                 method: request.method,
@@ -36,35 +36,45 @@ self.EclipseServiceWorker = class EclipseServiceWorker {
                 duplex: "half",
             });
 
-            const responseHeaders = self.__eclipse$rewrite.headers.response(response.rawHeaders);
+            const responseHeaders = self.__eclipse$rewrite.headers.response(response.rawHeaders, request.url);
 
             let body;
             if (response.body) {
-                //Only rewrites when added with a script/style tag etc.
                 switch (request.destination) {
                     case "iframe":
                     case "document":
-                        //Maybe add more content-types to debug rewriting
+                        //Todo: Add more content-types. I don't think rewrites work with fetch.
                         if (responseHeaders.get("content-type").startsWith("text/html")) {
-                            body = self.__eclipse$rewrite.html(await response.text());
+                            body = self.__eclipse$rewrite.html(await response.text(), request.url);
                         } else {
                             body = response.body;
                         }
                         break;
-                    case "script":
-                        body = self.__eclipse$rewrite.javascript(await response.text());
-                        break;
-                    case "style":
-                        body = self.__eclipse$rewrite.css(await response.text());
-                        break;
                     case "sharedworker":
                     case "worker":
+                    case "serviceworker":
+                    case "script":
+                        body = self.__eclipse$rewrite.javascript(await response.text(), request.url);
+                        break;
+                    case "style":
+                        body = self.__eclipse$rewrite.css(await response.text(), "stylesheet", request.url);
+                        break;
+                    case "manifest":
                         //Todo
                         body = await response.text();
-                        break;
                     default:
                         body = response.body;
                         break;
+                }
+            }
+
+            if (["document", "iframe"].includes(request.destination)) {
+                const contentDisposition = responseHeaders.get("content-disposition");
+
+                if (!/\s*?((inline|attachment);\s*?)filename=/i.test(contentDisposition)) {
+                    const type = /^\s*?attachment/i.test(contentDisposition) ? "attachment" : "inline";
+                    const [filename] = response.finalURL.split("/").reverse();
+                    responseHeaders.set("content-disposition", `${type}; filename=${JSON.stringify(filename)}`);
                 }
             }
 
