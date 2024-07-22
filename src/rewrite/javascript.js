@@ -6,7 +6,8 @@ function javascript(code, origin) {
         const ast = parseModule(code, {
             module: true,
             webcompat: true,
-            globalReturn: true
+            globalReturn: true,
+            specDeviation: true,
         })
 
         const globals = ["window", "self", "globalThis", "this", "parent", "top", "location", "document"];
@@ -16,6 +17,16 @@ function javascript(code, origin) {
 
             if (node.type == "Identifier" && globals.includes(node.name)) {
                 node.name = `__eclipse$scope(${node.name})`;
+            }
+
+            if (node.type == "ImportDeclaration") {
+                node.source.value = self.__eclipse$rewrite.url.encode(node.source.value, origin);
+            }
+
+            if (node.type == "ImportExpression") {
+                if (node.source.type == "Literal") {
+                    node.source.value = self.__eclipse$rewrite.url.encode(node.source.value, origin);
+                }
             }
 
             for (let key in node) {
