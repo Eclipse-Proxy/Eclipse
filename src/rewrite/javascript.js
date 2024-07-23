@@ -38,6 +38,17 @@ function javascript(code, origin) {
             if (node.type == "ImportExpression") {
                 if (node.source.type == "Literal") {
                     node.source.value = self.__eclipse$rewrite.url.encode(node.source.value, origin);
+                } else {
+                    node.source = {
+                        "type": "CallExpression",
+                        "callee": {
+                          "type": "Identifier",
+                          "name": "__eclipse$rewrite.url.encode"
+                        },
+                        "arguments": [
+                          node.source
+                        ]
+                      }
                 }
             }
 
