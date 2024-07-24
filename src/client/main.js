@@ -1,5 +1,6 @@
 import { createWindowProxy } from "./window.js";
 import { createLocationProxy } from "./location.js";
+import { createDocumentProxy } from "./document.js";
 
 self.__eclipse$scope = (identifier) => {
     if (identifier instanceof Window) {
@@ -7,7 +8,7 @@ self.__eclipse$scope = (identifier) => {
     } else if (identifier instanceof Location) {
         return createLocationProxy(identifier);
     } else if (identifier instanceof Document) {
-        return document;
+        return createDocumentProxy(identifier);
     }
 
     return identifier;

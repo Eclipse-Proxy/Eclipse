@@ -7,11 +7,11 @@ function createLocationProxy(loc = window.location) {
                 case "constructor":
                     return loc.constructor;
                 case "assign":
-                    return url => loc.assign(__eclipse$rewrite.url.encode(url));
+                    return url => loc.assign(__eclipse$rewrite.url.encode(url, window.location.href));
                 case "reload":
                     return () => loc.reload();
                 case "replace":
-                    return url => loc.replace(__eclipse$rewrite.url.encode(url));
+                    return url => loc.replace(__eclipse$rewrite.url.encode(url, window.location.href));
                 case "toString":
                     return () => decodedLocation.toString();
                 default:
@@ -26,7 +26,7 @@ function createLocationProxy(loc = window.location) {
             }
 
             decodedLocation[prop] = value;
-            loc.href = __eclipse$rewrite.url.encode(decodedLocation.href);
+            loc.href = __eclipse$rewrite.url.encode(decodedLocation.href, window.location.href);
             return true;
         }
     });

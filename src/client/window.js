@@ -1,3 +1,4 @@
+import { createDocumentProxy } from "./document.js";
 import { createLocationProxy } from "./location.js";
 
 function createWindowProxy(win = window) {
@@ -5,6 +6,8 @@ function createWindowProxy(win = window) {
         get(_target, prop) {
             if (prop == "location") {
                 return createLocationProxy(win[prop]);
+            } else if (prop == "document") {
+                return createDocumentProxy(win[prop]);
             } else if (["window", "self", "globalThis", "parent", "top"].includes(prop)) {
                 return createWindowProxy(win[prop])
             }

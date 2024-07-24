@@ -17,8 +17,12 @@ function javascript(code, origin) {
                 return false;
             }
 
-            if (parent && (parent.type == "VariableDeclarator" || parent.type == "FunctionDeclaration" || parent.type == "FunctionExpression" || parent.type == "ArrowFunctionExpression")) {
+            if (parent && parent.type == "MemberExpression" && parent.property == node) {
                 return false;
+            }
+
+            if (parent && (parent.type == "VariableDeclarator" || parent.type == "AssignmentExpression" || parent.type == "BinaryExpression")) {
+                return true;
             }
 
             return true;
@@ -42,13 +46,13 @@ function javascript(code, origin) {
                     node.source = {
                         "type": "CallExpression",
                         "callee": {
-                          "type": "Identifier",
-                          "name": "__eclipse$rewrite.url.encode"
+                            "type": "Identifier",
+                            "name": "__eclipse$rewrite.url.encode"
                         },
                         "arguments": [
-                          node.source
+                            node.source
                         ]
-                      }
+                    }
                 }
             }
 
