@@ -7,3 +7,13 @@ window.eval = new Proxy(window.eval, {
         return Reflect.apply(target, thisArg, argArray);
     },
 });
+
+window.Function = new Proxy(window.Function, {
+    construct(target, argArray) {
+        if (argArray[argArray.length - 1]) {
+            argArray[argArray.length - 1] = __eclipse$rewrite.javascript(argArray[argArray.length - 1], window.location.href);
+        }
+
+        return Reflect.construct(target, argArray)
+    }
+});

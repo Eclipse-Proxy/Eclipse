@@ -1,7 +1,12 @@
 import "./main.js";
-import "./api/beacon.js";
 import "./api/eval.js";
 import "./api/fetch.js";
 import "./api/history.js";
 import "./api/websocket.js";
 import "./api/xmlhttprequest.js";
+import "./api/open.js";
+import "./api/postmessage.js";
+import "./api/navigator.js";
+import "./api/document.js";
+import "./api/worker.js";
+import "./api/importscripts.js";
