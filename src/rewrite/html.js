@@ -1,7 +1,7 @@
-import { parse, serialize } from "parse5";
+import { parse, parseFragment, serialize } from "parse5";
 
-function html(code, origin) {
-    const dom = parse(code);
+function html(code, origin, fragment = false) {
+    const dom = fragment ? parseFragment(code) : parse(code);
     const elements = [];
 
     function addNode(node) {
@@ -20,7 +20,6 @@ function html(code, origin) {
 
     const scripts = ["client", "rewrite", "config", "codecs"];
     const urlAttributes = new Set(["href", "src", "action", "formaction", "ping", "profile", "movie", "poster", "background", "data"]);
-    //Todo: Better rewrites for "http-equiv"
     const deleteAttributes = new Set(["http-equiv", "nonce", "integrity", "crossorigin", "sandbox", "csp"]);
     const srcSetAttributes = new Set(["srcset", "imagesrcset"]);
     const htmlAttributes = new Set(["srcdoc"]);

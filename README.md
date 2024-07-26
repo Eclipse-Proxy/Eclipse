@@ -6,3 +6,4 @@ An interception web proxy.
 - Client rewrites
 - Manifest rewrites
 - Plugin system
+- Better rewrites for "http-equiv"
