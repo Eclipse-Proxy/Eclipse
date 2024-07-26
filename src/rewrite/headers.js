@@ -35,9 +35,7 @@ async function request(oldHeaders, origin) {
         //Todo
     }
 
-    if (newHeaders.has("cookie")) {
-        newHeaders.set("cookie", await self.__eclipse$rewrite.cookie.request(origin));
-    }
+    newHeaders.set("cookie", await self.__eclipse$rewrite.cookie.request(origin));
 
     return newHeaders;
 }

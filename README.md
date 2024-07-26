@@ -2,9 +2,7 @@
 An interception web proxy.
 
 ## Todo
-- Fix it
-- Cookies
-- Client rewrites: Document proxy, everything else
+- Cookies for all subdomains (".google.com" instead of "www.google.com")
+- Client rewrites
 - Manifest rewrites
-- Websocket support
 - Plugin system

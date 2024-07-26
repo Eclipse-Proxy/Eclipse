@@ -8,7 +8,7 @@ async function request(origin) {
         prefix: "@eclipse/cookies",
     });
 
-    return await cookiesJar.entries().map((cookie) => serialize(cookie[1].name, cookie[1].value, cookie[1])).join("; ");
+    return (await cookiesJar.entries()).map((cookie) => serialize(cookie[1].name, cookie[1].value, cookie[1])).join("; ");
 }
 
 async function response(header, origin) {
