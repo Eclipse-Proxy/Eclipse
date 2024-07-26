@@ -23,7 +23,7 @@ self.EclipseServiceWorker = class EclipseServiceWorker {
         try {
             const url = self.__eclipse$rewrite.url.decode(request.url);
 
-            const requestHeaders = self.__eclipse$rewrite.headers.request(Object.assign({}, request.headers), request.url);
+            const requestHeaders = await self.__eclipse$rewrite.headers.request(Object.assign({}, request.headers), request.url);
 
             const response = await this.client.fetch(url, {
                 method: request.method,
@@ -36,21 +36,27 @@ self.EclipseServiceWorker = class EclipseServiceWorker {
                 duplex: "half",
             });
 
-            const responseHeaders = self.__eclipse$rewrite.headers.response(response.rawHeaders, request.url);
+            const responseHeaders = await self.__eclipse$rewrite.headers.response(response.rawHeaders, request.url);
 
             let body;
+
             if (response.body) {
+                let contentType = responseHeaders.has("content-type") && responseHeaders.get("content-type");
                 switch (request.destination) {
                     case "iframe":
                     case "document":
-                        if (responseHeaders.get("content-type").startsWith("text/html")) {
-                            body = self.__eclipse$rewrite.html(await response.text(), request.url);
-                        } else if (responseHeaders.get("content-type").startsWith("text/css")) {
-                            body = self.__eclipse$rewrite.css(await response.text(), "stylesheet", request.url);
-                        } else if (responseHeaders.get("content-type").startsWith("text/javascript") || responseHeaders.get("content-type").startsWith("application/javascript")) {
-                            body = self.__eclipse$rewrite.javascript(await response.text(), request.url);
+                        if (contentType) {
+                            if (contentType.startsWith("text/html")) {
+                                body = self.__eclipse$rewrite.html(await response.text(), request.url);
+                            } else if (contentType.startsWith("text/css")) {
+                                body = self.__eclipse$rewrite.css(await response.text(), "stylesheet", request.url);
+                            } else if (contentType.startsWith("text/javascript") || contentType.startsWith("application/javascript")) {
+                                body = self.__eclipse$rewrite.javascript(await response.text(), request.url);
+                            } else {
+                                body = response.body;
+                            }
                         } else {
-                            body = response.body;
+                            body = response.body
                         }
                         break;
                     case "sharedworker":
@@ -66,14 +72,18 @@ self.EclipseServiceWorker = class EclipseServiceWorker {
                         //Todo
                         body = await response.text();
                     default:
-                        if (responseHeaders.get("content-type").startsWith("text/html")) {
-                            body = self.__eclipse$rewrite.html(await response.text(), request.url);
-                        } else if (responseHeaders.get("content-type").startsWith("text/css")) {
-                            body = self.__eclipse$rewrite.css(await response.text(), "stylesheet", request.url);
-                        } else if (responseHeaders.get("content-type").startsWith("text/javascript") || responseHeaders.get("content-type").startsWith("application/javascript")) {
-                            body = self.__eclipse$rewrite.javascript(await response.text(), request.url);
+                        if (contentType) {
+                            if (contentType.startsWith("text/html")) {
+                                body = self.__eclipse$rewrite.html(await response.text(), request.url);
+                            } else if (contentType.startsWith("text/css")) {
+                                body = self.__eclipse$rewrite.css(await response.text(), "stylesheet", request.url);
+                            } else if (contentType.startsWith("text/javascript") || contentType.startsWith("application/javascript")) {
+                                body = self.__eclipse$rewrite.javascript(await response.text(), request.url);
+                            } else {
+                                body = response.body;
+                            }
                         } else {
-                            body = response.body;
+                            body = response.body
                         }
                         break;
                 }

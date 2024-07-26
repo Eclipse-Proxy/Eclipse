@@ -20,13 +20,29 @@ const cspHeaders = [
 
 const urlHeaders = ["location", "content-location", "referer"];
 
-function request(oldHeaders, origin) {
+const requestHeaders = ["host", "origin", "referrer"];
+
+async function request(oldHeaders, origin) {
     let newHeaders = new Headers(oldHeaders);
+
+    for (let reqHeaders of requestHeaders) {
+        if (newHeaders.has(reqHeaders)) {
+            newHeaders.set(reqHeaders, self.__eclipse$config.codec.encode(newHeaders.get(reqHeader), origin))
+        }
+    }
+
+    if (newHeaders.has("authenticate")) {
+        //Todo
+    }
+
+    if (newHeaders.has("cookie")) {
+        newHeaders.set("cookie", await self.__eclipse$rewrite.cookie.request(origin));
+    }
 
     return newHeaders;
 }
 
-function response(oldHeaders, origin) {
+async function response(oldHeaders, origin) {
     let newHeaders = new Headers(oldHeaders);
 
     for (let cspHeader of cspHeaders) {
@@ -42,9 +58,17 @@ function response(oldHeaders, origin) {
     }
 
     if (newHeaders.has("link")) {
-        newHeaders.set("link", newHeaders[header].replace(/<(.*?)>/gi, (match) => {
+        newHeaders.set("link", newHeaders.get("link").replace(/<(.*?)>/gi, (match) => {
             return self.__eclipse$config.codec.encode(match);
         }));
+    }
+
+    if (newHeaders.has("www-authenticate")) {
+        //Todo
+    }
+
+    if (newHeaders.has("set-cookie")) {
+        await __eclipse$rewrite.cookie.response(newHeaders.get("set-cookie"), origin);
     }
 
     return newHeaders;
