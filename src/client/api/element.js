@@ -171,7 +171,6 @@ const allAttributes = new Set([
 	...deleteAttributes,
 	...srcSetAttributes,
 	...htmlAttributes,
-	...cssAttributes,
 	...javascriptAttributes,
 ]);
 
@@ -255,10 +254,7 @@ Object.defineProperty(Element.prototype, "getAttribute", {
 		if (attribute.startsWith("data-eclipse-attr-")) {
 			return null;
 		} else if (
-			originalElementHasAttribute.call(
-				this,
-				`data-eclipse-attr-${attribute}`
-			)
+			originalElementHasAttribute.call(this, `data-eclipse-attr-${attribute}`)
 		) {
 			return originalElementGetAttribute.call(
 				this,
@@ -282,9 +278,7 @@ Object.defineProperty(Element.prototype, "setAttribute", {
 			return originalElementSetAttribute.call(
 				this,
 				name,
-				value
-					? __eclipse$rewrite.url.encode(value, window.location.href)
-					: ""
+				value ? __eclipse$rewrite.url.encode(value, window.location.href) : ""
 			);
 		} else if (deleteAttributes.has(name)) {
 			return originalElementSetAttribute.call(
@@ -301,13 +295,7 @@ Object.defineProperty(Element.prototype, "setAttribute", {
 			return originalElementSetAttribute.call(
 				this,
 				name,
-				value
-					? __eclipse$rewrite.srcset(
-							value,
-							window.location.href,
-							true
-					  )
-					: ""
+				value ? __eclipse$rewrite.srcset(value, window.location.href, true) : ""
 			);
 		} else if (htmlAttributes.has(name)) {
 			originalElementSetAttribute.call(
@@ -340,9 +328,7 @@ Object.defineProperty(Element.prototype, "setAttribute", {
 			return originalElementSetAttribute.call(
 				this,
 				name,
-				value
-					? __eclipse$rewrite.javascript(value, window.location.href)
-					: ""
+				value ? __eclipse$rewrite.javascript(value, window.location.href) : ""
 			);
 		} else {
 			return originalElementSetAttribute.call(this, name, value);
@@ -354,10 +340,7 @@ let originalElementRemoveAttribute = HTMLElement.prototype.removeAttribute;
 Object.defineProperty(Element.prototype, "removeAttribute", {
 	value: function (attribute) {
 		if (
-			originalElementHasAttribute.call(
-				this,
-				`data-eclipse-attr-${attribute}`
-			)
+			originalElementHasAttribute.call(this, `data-eclipse-attr-${attribute}`)
 		) {
 			originalElementRemoveAttribute.call(
 				this,
@@ -382,22 +365,20 @@ for (let htmlElement of htmlElements) {
 	if (window.hasOwnProperty(htmlElement)) {
 		for (let attribute of allAttributes) {
 			if (window[htmlElement].prototype.hasOwnProperty(attribute)) {
-				Object.defineProperty(
-					window[htmlElement].prototype,
-					attribute,
-					{
-						set(value) {
-							return this.setAttribute(attribute, value);
-						},
-						get() {
-							return this.getAttribute(attribute);
-						},
-					}
-				);
+				Object.defineProperty(window[htmlElement].prototype, attribute, {
+					set(value) {
+						return this.setAttribute(attribute, value);
+					},
+					get() {
+						return this.getAttribute(attribute);
+					},
+				});
 			}
 		}
 	}
 }
+
+//getAttributeNS getAttributeNode getAttributeNodeNS setAttributeNS setAttributeNode setAttributeNodeNS outerHTML outerText
 
 let originalContentWindow = Object.getOwnPropertyDescriptor(
 	HTMLIFrameElement.prototype,

@@ -11,3 +11,5 @@ import "./api/document.js";
 import "./api/worker.js";
 import "./api/importscripts.js";
 import "./api/element.js";
+import "./api/style.js";
+import "./api/cookie.js";
