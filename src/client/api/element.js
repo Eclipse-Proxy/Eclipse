@@ -399,3 +399,5 @@ Object.defineProperty(HTMLIFrameElement.prototype, "contentDocument", {
 		return createDocumentProxy(originalContentDocument.call(this));
 	},
 });
+
+//I think iframe.contentDocument.createElement might be broken

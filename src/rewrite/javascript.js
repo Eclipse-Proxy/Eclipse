@@ -14,7 +14,11 @@ function javascript(code, origin) {
 
         function shouldReplaceIdentifier(node, parent) {
             if (globals.includes(node.name)) {
-                if (parent && parent.type == "MemberExpression" && parent.property == node) {
+                if (parent && parent.type == "Property" && parent.key == node) {
+                    return false;
+                }
+
+                if (parent && (parent.type == "MemberExpression" && parent.property == node)) {
                     return false;
                 }
 
