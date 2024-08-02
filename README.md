@@ -9,3 +9,4 @@ An interception web proxy.
 - Better rewrites for "http-equiv"
 - Auth header rewrites
 - Fix: __eclipse$scope(location) = "https://example.com" (maybe __eclipse$scope(self).location = "https://example.com")
+- Proxy "frames"
