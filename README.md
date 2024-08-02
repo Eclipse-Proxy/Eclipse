@@ -10,3 +10,4 @@ An interception web proxy.
 - Auth header rewrites
 - Fix: __eclipse$scope(location) = "https://example.com" (maybe __eclipse$scope(self).location = "https://example.com")
 - Proxy "frames"
+- Fix: new __eclipse$scope(window).MutationObserver()

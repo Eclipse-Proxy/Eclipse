@@ -25,9 +25,11 @@ function createWindowProxy(win = window) {
             return value;
         },
         set(_target, prop, newValue) {
+            //Todo rewrite location
             win[prop] = newValue;
             return true;
-        }
+        },
+        
     });
 }
 
