@@ -1,0 +1,1 @@
+//Todo window.origin

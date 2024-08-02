@@ -378,7 +378,7 @@ for (let htmlElement of htmlElements) {
 	}
 }
 
-//getAttributeNS getAttributeNode getAttributeNodeNS setAttributeNS setAttributeNode setAttributeNodeNS outerHTML outerText
+//getAttributeNS getAttributeNode getAttributeNodeNS setAttributeNS setAttributeNode setAttributeNodeNS outerHTML outerText insertAdjacentHTML insertAdjacentText
 
 let originalContentWindow = Object.getOwnPropertyDescriptor(
 	HTMLIFrameElement.prototype,

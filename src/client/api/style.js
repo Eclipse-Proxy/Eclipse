@@ -56,3 +56,5 @@ CSSStyleDeclaration.prototype.getPropertyValue = function (property) {
 
 	return value;
 };
+
+//setProperty

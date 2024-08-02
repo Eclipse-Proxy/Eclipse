@@ -27,3 +27,5 @@ Object.defineProperty(window.document, "baseURI", {
         return value;
     }
 });
+
+//documentURI referrer URL write writeIn
