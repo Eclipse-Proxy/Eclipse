@@ -60,10 +60,22 @@ Object.defineProperty(Element.prototype, "innerText", {
 })
 
 let originalElementHasAttribute = HTMLElement.prototype.hasAttribute;
+Object.defineProperty(Element.prototype, "hasAttribute", {
+    value: function (attribute) {
+        if (attribute.startsWith("data-eclipse-attr-")) {
+            return null;
+        } else {
+            return originalElementHasAttribute.call(this, attribute);
+        }
+    }
+})
+
 let originalElementGetAttribute = HTMLElement.prototype.getAttribute;
 Object.defineProperty(Element.prototype, "getAttribute", {
     value: function (attribute) {
-        if (originalElementHasAttribute.call(this, `data-eclipse-attr-${attribute}`)) {
+        if (attribute.startsWith("data-eclipse-attr-")) {
+            return null;
+        } else if (originalElementHasAttribute.call(this, `data-eclipse-attr-${attribute}`)) {
             return originalElementGetAttribute.call(this, `data-eclipse-attr-${attribute}`);
         } else {
             return originalElementGetAttribute.call(this, attribute);
@@ -94,6 +106,16 @@ Object.defineProperty(Element.prototype, "setAttribute", {
         } else {
             return originalElementSetAttribute.call(this, name, value);
         }
+    }
+})
+
+let originalElementRemoveAttribute = HTMLElement.prototype.removeAttribute;
+Object.defineProperty(Element.prototype, "removeAttribute", {
+    value: function (attribute) {
+        if (originalElementHasAttribute.call(this, `data-eclipse-attr-${attribute}`)) {
+            originalElementRemoveAttribute.call(this, `data-eclipse-attr-${attribute}`);
+        }
+        return originalElementRemoveAttribute.call(this, attribute);
     }
 })
 
