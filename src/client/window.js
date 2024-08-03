@@ -3,31 +3,26 @@ import { createLocationProxy } from "./location.js";
 
 function createWindowProxy(win = window) {
     return new Proxy(win, {
-        get(_target, prop) {
+        get(target, prop) {
+            const value = target[prop];
+
             if (prop == "location") {
-                return createLocationProxy(win[prop]);
+                return createLocationProxy(value);
             } else if (prop == "document") {
-                return createDocumentProxy(win[prop]);
+                return createDocumentProxy(value);
             } else if (["window", "self", "globalThis", "parent", "top"].includes(prop)) {
-                return createWindowProxy(win[prop])
+                return createWindowProxy(value)
             }
 
-            const value = win[prop];
-
-            if (typeof value == "function" && value.toString == self.Object.toString) {
-                return new Proxy(value, {
-                    apply(target, _thisArg, args) {
-                        return Reflect.apply(target, win, args);
-                    }
-                });
+            if (typeof value == "function") {
+                return value.bind(target);
             }
 
             return value;
         },
-        set(_target, prop, newValue) {
+        set(target, prop, newValue) {
             //Todo rewrite location
-            win[prop] = newValue;
-            return true;
+            return target[prop] = newValue;
         },
         
     });

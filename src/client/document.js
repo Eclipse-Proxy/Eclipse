@@ -2,26 +2,21 @@ import { createLocationProxy } from "./location.js";
 
 function createDocumentProxy(doc = window.document) {
     return new Proxy(doc, {
-        get(_target, prop) {
+        get(target, prop) {
+            const value = target[prop];
+
             if (prop == "location") {
-                return createLocationProxy(doc[prop]);
+                return createLocationProxy(value);
             }
 
-            const value = doc[prop];
-
-            if (typeof value == "function" && value.toString == self.Object.toString) {
-                return new Proxy(value, {
-                    apply(target, _thisArg, args) {
-                        return Reflect.apply(target, doc, args);
-                    }
-                });
+            if (typeof value == "function") {
+                return value.bind(target);
             }
 
             return value;
         },
-        set(_target, prop, newValue) {
-            doc[prop] = newValue;
-            return true;
+        set(target, prop, newValue) {
+            return target[prop] = newValue;
         }
     });
 }
