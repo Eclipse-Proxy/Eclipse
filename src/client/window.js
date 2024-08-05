@@ -24,8 +24,7 @@ function createWindowProxy(win = window) {
         },
         set(target, prop, newValue) {
             if (prop == "location") {
-                //Todo rewrite location
-                return false;
+                return win.location = __eclipse$rewrite.url.encode(newValue, window.location.href);
             }
             target[prop] = newValue;
             return true;

@@ -11,7 +11,7 @@ spawn("pnpm", ["rspack", "-w"], {
 
 logging.set_level(logging.ERROR)
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 4000;
 const server = createServer();
 const app = express();
 

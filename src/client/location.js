@@ -21,13 +21,12 @@ function createLocationProxy(loc = window.location) {
         set(_target, prop, value) {
             const decodedLocation = new URL(__eclipse$rewrite.url.decode(loc.href));
 
-            if (!(prop in decodedLocation)) {
-                return false;
+            if (prop in decodedLocation) {
+                decodedLocation[prop] = value;
+                loc.href = __eclipse$rewrite.url.encode(decodedLocation.href, window.location.href);
+                return true;
             }
-
-            decodedLocation[prop] = value;
-            loc.href = __eclipse$rewrite.url.encode(decodedLocation.href, window.location.href);
-            return true;
+            return false;
         }
     });
 }
