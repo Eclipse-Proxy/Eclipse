@@ -18,7 +18,8 @@ function createDocumentProxy(doc = window.document) {
 			return value;
 		},
 		set(target, prop, newValue) {
-			return (target[prop] = newValue);
+			target[prop] = newValue;
+			return true;
 		},
 	});
 }

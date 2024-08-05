@@ -2,10 +2,9 @@ import { parseModule } from "meriyah";
 import { generate } from "astring";
 
 function javascript(code, origin) {
-    const globals = ["window", "self", "globalThis", "parent", "top", "location", "document", "frames"];
+    const globals = ["window", "self", "globalThis", "parent", "top", "location", "document", "frames", "location"];
 
-    //Todo: Fix this.location.href and location.href
-    return `(function(${globals.join(", ")}) {${code}})(${globals.map((global) => "__eclipse$scope(" + global + ")").join(", ")});`
+    return `(function(${globals.join(", ")}) {${code}}).bind(__eclipse$scope(this))(${globals.map(global => "__eclipse$scope(" + global + ")").join(", ")});`
     /*
     try {
         const ast = parseModule(code, {

@@ -1,4 +1,4 @@
-import "./main.js";
+import "./scope.js";
 import "./api/eval.js";
 import "./api/fetch.js";
 import "./api/history.js";
