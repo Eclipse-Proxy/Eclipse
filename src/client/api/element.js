@@ -194,7 +194,7 @@ Object.defineProperty(Element.prototype, "innerHTML", {
 		} else if (this instanceof HTMLStyleElement) {
 			originalElementInnerHTML.set.call(
 				this,
-				__eclipse$rewrite.css(value, window.location.href)
+				__eclipse$rewrite.css(value, "stylesheet", window.location.href)
 			);
 		} else {
 			originalElementInnerHTML.set.call(
@@ -224,7 +224,7 @@ Object.defineProperty(Element.prototype, "innerText", {
 		} else if (this instanceof HTMLStyleElement) {
 			originalElementInnerText.set.call(
 				this,
-				__eclipse$rewrite.css(value, window.location.href)
+				__eclipse$rewrite.css(value, "stylesheet", window.location.href)
 			);
 		} else {
 			originalElementInnerText.set.call(this, value);
@@ -317,7 +317,7 @@ Object.defineProperty(Element.prototype, "setAttribute", {
 			return originalElementSetAttribute.call(
 				this,
 				name,
-				value ? __eclipse$rewrite.css(value, window.location.href) : ""
+				value ? __eclipse$rewrite.css(value, "declarationList", window.location.href) : ""
 			);
 		} else if (javascriptAttributes.has(name)) {
 			originalElementSetAttribute.call(
