@@ -25,9 +25,9 @@ const requestHeaders = ["host", "origin", "referrer"];
 async function request(oldHeaders, origin) {
     let newHeaders = new Headers(oldHeaders);
 
-    for (let reqHeaders of requestHeaders) {
-        if (newHeaders.has(reqHeaders)) {
-            newHeaders.set(reqHeaders, self.__eclipse$config.codec.encode(newHeaders.get(reqHeader), origin))
+    for (let reqHeader of requestHeaders) {
+        if (newHeaders.has(reqHeader)) {
+            newHeaders.set(reqHeader, self.__eclipse$config.codec.encode(newHeaders.get(reqHeader), origin)[reqHeader])
         }
     }
 

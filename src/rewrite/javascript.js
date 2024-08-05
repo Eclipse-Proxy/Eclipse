@@ -13,22 +13,19 @@ function javascript(code, origin) {
         const globals = ["window", "self", "globalThis", "this", "parent", "top", "location", "document"];
 
         function shouldReplaceIdentifier(node, parent) {
-            if (globals.includes(node.name)) {
-                if (parent && parent.type == "Property" && parent.key == node) {
-                    return false;
-                }
-
-                if (parent && (parent.type == "MemberExpression" && parent.property == node)) {
-                    return false;
-                }
-
-                if (parent && (parent.type == "VariableDeclarator" || parent.type == "AssignmentExpression" || parent.type == "BinaryExpression")) {
-                    return false;
-                }
-
-                return true;
+            if (!globals.includes(node.name)) {
+                return false;
             }
-            return false;
+
+            if (parent && parent.type == "MethodDefinition" && parent.kind == "get") {
+                return false;
+            }
+
+            if (parent && ["VariableDeclarator", "FunctionDeclaration", "FunctionExpression", "ArrowFunctionExpression"].includes(parent.type)) {
+                return false;
+            }
+
+            return true;
         }
 
         function traverse(node, parent = null) {
