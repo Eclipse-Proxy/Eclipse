@@ -22,7 +22,7 @@ function createLocationProxy(loc = window.location) {
             const decodedLocation = new URL(__eclipse$rewrite.url.decode(loc.href));
 
             if (prop in decodedLocation) {
-                decodedLocation[prop] = value;
+                decodedLocation[prop] = new URL(value, decodedLocation.href).toString();
                 loc.href = __eclipse$rewrite.url.encode(decodedLocation.href, window.location.href);
                 return true;
             }

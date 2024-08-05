@@ -2,7 +2,7 @@ import { parseModule } from "meriyah";
 import { generate } from "astring";
 
 function javascript(code, origin) {
-    const globals = ["window", "self", "globalThis", "parent", "top", "location", "document", "frames", "location"];
+    const globals = ["window", "self", "globalThis", "parent", "top", "document", "frames", "location"];
 
     return `(function(${globals.join(", ")}) {${code}}).bind(__eclipse$scope(this))(${globals.map(global => "__eclipse$scope(" + global + ")").join(", ")});`
     /*

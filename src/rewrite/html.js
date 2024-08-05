@@ -97,9 +97,12 @@ function html(code, origin, fragment = false) {
         }
 
         if (javascriptElements.has(item.tagName?.toLowerCase())) {
-            for (let childNode of item.childNodes) {
-                if (childNode.value) {
-                    childNode.value = self.__eclipse$rewrite.javascript(childNode.value, origin);
+            //Instagram fix
+            if (!item.attrs.filter((attr) => attr.name == "type")[0] || item.attrs.filter((attr) => attr.name == "type")[0].value !== "application/json") {
+                for (let childNode of item.childNodes) {
+                    if (childNode.value) {
+                        childNode.value = self.__eclipse$rewrite.javascript(childNode.value, origin);
+                    }
                 }
             }
         }
