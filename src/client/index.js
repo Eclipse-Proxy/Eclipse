@@ -17,3 +17,4 @@ import "./api/origin.js";
 import "./api/reqres.js";
 import "./api/blob.js";
 import "./api/audio.js";
+import "./api/performance.js";

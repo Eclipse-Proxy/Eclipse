@@ -379,6 +379,7 @@ for (let htmlElement of htmlElements) {
 }
 
 //getAttributeNS getAttributeNode getAttributeNodeNS setAttributeNS setAttributeNode setAttributeNodeNS outerHTML outerText insertAdjacentHTML insertAdjacentText
+//HTMLAnchorElement.prototype.origin (document.querySelector("a").origin) (also other url properties like pathname etc.)
 
 let originalContentWindow = Object.getOwnPropertyDescriptor(
 	HTMLIFrameElement.prototype,

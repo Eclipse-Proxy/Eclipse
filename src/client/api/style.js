@@ -58,3 +58,4 @@ CSSStyleDeclaration.prototype.getPropertyValue = function (property) {
 };
 
 //setProperty
+//cssText

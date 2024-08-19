@@ -1,4 +1,5 @@
 import { createLocationProxy } from "./location.js";
+import { createWindowProxy } from "./window.js";
 
 function createDocumentProxy(doc = window.document) {
 	return new Proxy(doc, {
@@ -7,6 +8,8 @@ function createDocumentProxy(doc = window.document) {
 
 			if (prop == "location") {
 				return createLocationProxy(value);
+			} else if (prop == "defaultView") {
+				return createWindowProxy(value);
 			}
 
 			if (typeof value == "function") {
