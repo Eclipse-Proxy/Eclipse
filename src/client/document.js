@@ -13,12 +13,10 @@ function createDocumentProxy(doc = window.document) {
 			}
 
 			if (typeof value == "function") {
-				return function (...args) {
-					return value.apply(target, args);
-				};
-			}
-
-			return value;
+                return value.bind(target);
+            }
+    
+            return value;
 		},
 		set(target, prop, newValue) {
 			target[prop] = newValue;

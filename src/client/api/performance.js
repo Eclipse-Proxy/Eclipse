@@ -1,5 +1,16 @@
-//window.performance.getEntriesByType('navigation')[0].name
-//href of first "a" element on page
+const originalGetEntriesByType = window.performance.getEntriesByType;
 
-//window.performance.getEntriesByType('resource')[0].name
-//href of first resource (script, style, etc.) on page
+window.performance.getEntriesByType = function (type) {
+	const entries = originalGetEntriesByType.call(this, type);
+
+	if (["navigation", "resource"].includes(type)) {
+		return entries.map((entry) => {
+			return {
+				...entry,
+				name: __eclipse$rewrite.url.decode(entry.name),
+			};
+		});
+	}
+
+	return entries;
+};

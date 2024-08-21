@@ -14,7 +14,6 @@ import "./api/element.js";
 import "./api/style.js";
 import "./api/cookie.js";
 import "./api/origin.js";
-import "./api/reqres.js";
 import "./api/audio.js";
 import "./api/performance.js";
 import "./api/addeventlistener.js";
