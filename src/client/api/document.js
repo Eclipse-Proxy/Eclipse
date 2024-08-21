@@ -78,11 +78,15 @@ window.document.write = new Proxy(window.document.write, {
 });
 
 window.document.writeln = new Proxy(window.document.writeln, {
-    apply(target, thisArg, argArray) {
-        if (argArray[0]) {
-            argArray[0] = __eclipse$rewrite.html(argArray[0], window.location.href, true);
-        }
+	apply(target, thisArg, argArray) {
+		if (argArray[0]) {
+			argArray[0] = __eclipse$rewrite.html(
+				argArray[0],
+				window.location.href,
+				true
+			);
+		}
 
-        return Reflect.apply(target, thisArg, argArray);
-    },
+		return Reflect.apply(target, thisArg, argArray);
+	},
 });
