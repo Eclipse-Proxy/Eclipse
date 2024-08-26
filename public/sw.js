@@ -6,13 +6,13 @@ importScripts("/eclipse/eclipse.worker.js");
 const eclipse = new EclipseServiceWorker();
 
 async function handleRequest(e) {
-    if (eclipse.route(e)) {
-        return await eclipse.fetch(e);
-    }
+	if (eclipse.route(e)) {
+		return await eclipse.fetch(e);
+	}
 
-    return await fetch(e.request);
+	return await fetch(e.request);
 }
 
 self.addEventListener("fetch", (e) => {
-    e.respondWith(handleRequest(e));
+	e.respondWith(handleRequest(e));
 });

@@ -6,35 +6,37 @@ import { baremuxPath } from "@mercuryworkshop/bare-mux/node";
 import { libcurlPath } from "@mercuryworkshop/libcurl-transport";
 
 spawn("pnpm", ["rspack", "-w"], {
-    detached: true,
+	detached: true,
 });
 
-logging.set_level(logging.ERROR)
+logging.set_level(logging.ERROR);
 
 const port = process.env.PORT || 4000;
 const server = createServer();
 const app = express();
 
 app.use("/eclipse/", express.static("dist"));
-app.use(express.static("public", {
-    index: "index.html",
-    extensions: ["html"]
-}));
+app.use(
+	express.static("public", {
+		index: "index.html",
+		extensions: ["html"],
+	})
+);
 app.use("/baremux/", express.static(baremuxPath));
 app.use("/libcurl/", express.static(libcurlPath));
 
 server.on("request", (req, res) => {
-    app(req, res);
+	app(req, res);
 });
 
 server.on("upgrade", (req, socket, head) => {
-    if (req.url && req.url.endsWith("/wisp/")) {
-        wisp.routeRequest(req, socket, head);
-    } else {
-        socket.end();
-    }
+	if (req.url && req.url.endsWith("/wisp/")) {
+		wisp.routeRequest(req, socket, head);
+	} else {
+		socket.end();
+	}
 });
 
 server.listen(port, () => {
-    console.log(`Eclipse listening on port ${port}`);
+	console.log(`Eclipse listening on port ${port}`);
 });

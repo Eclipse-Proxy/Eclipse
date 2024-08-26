@@ -6,4 +6,12 @@ import { javascript } from "./javascript.js";
 import { srcset } from "./srcset.js";
 import { cookie } from "./cookie.js";
 
-self.__eclipse$rewrite = { url, headers, css, html, javascript, srcset, cookie };
+self.__eclipse$rewrite = {
+	url,
+	headers,
+	css,
+	html,
+	javascript,
+	srcset,
+	cookie,
+};

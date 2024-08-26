@@ -11,22 +11,22 @@ Object.defineProperty(window.document, "cookie", {
 		return originalCookieDescriptor.get.call(window.document);
 	},
 	async set(cookie) {
-        const cookiesJar = new IDBMap(
-            new URL(self.__eclipse$rewrite.url.decode(window.location.href)).host,
-            {
-                durability: "relaxed",
-                prefix: "@eclipse/cookies",
-            }
-        );
+		const cookiesJar = new IDBMap(
+			new URL(self.__eclipse$rewrite.url.decode(window.location.href)).host,
+			{
+				durability: "relaxed",
+				prefix: "@eclipse/cookies",
+			}
+		);
 
-        const cookies = parse(cookie, {
-            silent: true,
-        });
-    
-        for (const cookie of cookies) {
-            await cookiesJar.set(cookie.name, cookie);
-        }
-        
+		const cookies = parse(cookie, {
+			silent: true,
+		});
+
+		for (const cookie of cookies) {
+			await cookiesJar.set(cookie.name, cookie);
+		}
+
 		let proxiedCookie = cookie;
 		originalCookieDescriptor.set.call(document, proxiedCookie);
 	},

@@ -317,7 +317,13 @@ Object.defineProperty(Element.prototype, "setAttribute", {
 			return originalElementSetAttribute.call(
 				this,
 				name,
-				value ? __eclipse$rewrite.css(value, "declarationList", window.location.href) : ""
+				value
+					? __eclipse$rewrite.css(
+							value,
+							"declarationList",
+							window.location.href
+					  )
+					: ""
 			);
 		} else if (javascriptAttributes.has(name)) {
 			originalElementSetAttribute.call(
