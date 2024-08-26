@@ -12,11 +12,18 @@ function createDocumentProxy(doc = window.document) {
 				return createWindowProxy(value);
 			}
 
-			if (typeof value == "function") {
-                return value.bind(target);
-            }
-    
-            return value;
+			if (
+				typeof value == "function" &&
+				value.toString == self.Object.toString
+			) {
+				return new Proxy(value, {
+					apply(t, g, a) {
+						return Reflect.apply(t, doc, a);
+					},
+				});
+			} else {
+				return value;
+			}
 		},
 		set(target, prop, newValue) {
 			target[prop] = newValue;

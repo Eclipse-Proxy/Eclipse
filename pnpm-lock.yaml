@@ -23,6 +23,15 @@ importers:
       '@webreflection/idb-map':
         specifier: ^0.3.1
         version: 0.3.1
+      acorn:
+        specifier: ^8.12.1
+        version: 8.12.1
+      acorn-loose:
+        specifier: ^8.4.0
+        version: 8.4.0
+      acorn-walk:
+        specifier: ^8.3.3
+        version: 8.3.3
       astring:
         specifier: ^1.8.6
         version: 1.8.6
@@ -35,9 +44,6 @@ importers:
       express:
         specifier: ^4.19.2
         version: 4.19.2
-      meriyah:
-        specifier: ^4.5.0
-        version: 4.5.0
       parse5:
         specifier: ^7.1.2
         version: 7.1.2
@@ -385,6 +391,10 @@ packages:
     resolution: {integrity: sha512-n02Vykv5uA3eHGM/Z2dQrcD56kL8TyDb2p1+0P83PClMnC/nc+anbQRhIOWnSq4Ke/KvDPrY3C9hDtC/A3eHnQ==}
     peerDependencies:
       acorn: ^8
+
+  acorn-loose@8.4.0:
+    resolution: {integrity: sha512-M0EUka6rb+QC4l9Z3T0nJEzNOO7JcoJlYMrBlyBCiFSXRyxjLKayd4TbQs2FDRWQU1h9FR7QVNHt+PEaoNL5rQ==}
+    engines: {node: '>=0.4.0'}
 
   acorn-walk@8.3.3:
     resolution: {integrity: sha512-MxXdReSRhGO7VlFe1bRG/oI7/mdLV9B9JJT0N8vZOhF7gFRR5l3M8W9G8JxmKV+JC5mGqJ0QvqfSOLsCPa4nUw==}
@@ -998,10 +1008,6 @@ packages:
 
   merge-stream@2.0.0:
     resolution: {integrity: sha512-abv/qOcuPfk3URPfDzmZU1LKmuw8kT+0nIHvKrKgFrwifol/doWcdA4ZqsWQ8ENrFKkd67Mfpo/LovbIUsbt3w==}
-
-  meriyah@4.5.0:
-    resolution: {integrity: sha512-Rbiu0QPIxTXgOXwiIpRVJfZRQ2FWyfzYrOGBs9SN5RbaXg1CN5ELn/plodwWwluX93yzc4qO/bNIen1ThGFCxw==}
-    engines: {node: '>=10.4.0'}
 
   methods@1.1.2:
     resolution: {integrity: sha512-iclAHeNqNm68zFtnZ0e+1L2yUIdvzNoauKU4WBA3VvH/vPFieF7qfRlwUZU+DA9P9bPXIS90ulxoUoCH23sV2w==}
@@ -1987,6 +1993,10 @@ snapshots:
     dependencies:
       acorn: 8.12.1
 
+  acorn-loose@8.4.0:
+    dependencies:
+      acorn: 8.12.1
+
   acorn-walk@8.3.3:
     dependencies:
       acorn: 8.12.1
@@ -2583,8 +2593,6 @@ snapshots:
   merge-descriptors@1.0.1: {}
 
   merge-stream@2.0.0: {}
-
-  meriyah@4.5.0: {}
 
   methods@1.1.2: {}
 
