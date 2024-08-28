@@ -69,7 +69,7 @@ export function javascript(code, origin) {
 		Identifier(node, ancestors) {
 			const parent = ancestors[ancestors.length - 2];
 			if (shouldReplaceIdentifier(node, parent)) {
-				node.name = `__eclipse$scoped.${node.name}`;
+				node.name = `__eclipse$scope(${node.name})`;
 			}
 		},
 
