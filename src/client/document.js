@@ -12,15 +12,8 @@ function createDocumentProxy(doc = window.document) {
 				return createWindowProxy(value);
 			}
 
-			if (
-				typeof value == "function" &&
-				value.toString == self.Object.toString
-			) {
-				return new Proxy(value, {
-					apply(t, g, a) {
-						return Reflect.apply(t, doc, a);
-					},
-				});
+			if (typeof value == "function") {
+				return value.bind(target);
 			} else {
 				return value;
 			}

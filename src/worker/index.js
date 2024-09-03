@@ -101,8 +101,11 @@ self.EclipseServiceWorker = class EclipseServiceWorker {
 						);
 						break;
 					case "manifest":
-						//Todo
-						body = await response.text();
+						body = self.__eclipse$rewrite.manifest(
+							await response.json(),
+							request.url
+						);
+            break;
 					default:
 						if (contentType) {
 							if (contentType.startsWith("text/html")) {

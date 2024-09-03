@@ -18,15 +18,8 @@ function createWindowProxy(win = window) {
 				return createWindowProxy(value);
 			}
 
-			if (
-				typeof value == "function" &&
-				value.toString == self.Object.toString
-			) {
-				return new Proxy(value, {
-					apply(t, g, a) {
-						return Reflect.apply(t, win, a);
-					},
-				});
+			if (typeof value == "function") {
+				return value.bind(target);
 			} else {
 				return value;
 			}

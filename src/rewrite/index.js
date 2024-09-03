@@ -5,6 +5,7 @@ import { html } from "./html.js";
 import { javascript } from "./javascript.js";
 import { srcset } from "./srcset.js";
 import { cookie } from "./cookie.js";
+import { manifest } from "./manifest.js";
 
 self.__eclipse$rewrite = {
 	url,
@@ -14,4 +15,5 @@ self.__eclipse$rewrite = {
 	javascript,
 	srcset,
 	cookie,
+	manifest,
 };
