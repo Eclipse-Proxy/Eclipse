@@ -9,3 +9,4 @@ An interception web proxy.
 - Better rewrites for "http-equiv"
 - Fix: eclipse$scope(location) = "https://example.com" (eclipse$scope(self).location = "https://example.com")
 - Fix: new \_\_eclipse$scope(window).MutationObserver() throwing error
+- Better error page
