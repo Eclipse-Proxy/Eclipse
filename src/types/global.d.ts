@@ -22,6 +22,7 @@ declare global {
 			xor: Codec;
 			base64: Codec;
 			hex: Codec;
+            comp: Codec;
 		};
 		__eclipse$rewrite: {
 			url: {

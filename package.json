@@ -24,6 +24,7 @@
 		"cookie": "^0.6.0",
 		"css-tree": "^2.3.1",
 		"express": "^4.19.2",
+		"fflate": "^0.8.2",
 		"parse5": "^7.1.2",
 		"set-cookie-parser": "^2.6.0",
 		"tsx": "^4.19.0"
