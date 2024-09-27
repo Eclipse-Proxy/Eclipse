@@ -70,7 +70,7 @@ function javascript(code: string, origin: string): string {
 			//@ts-ignore
 			const parent = ancestors[ancestors.length - 2];
 			if (shouldReplaceIdentifier(node, parent)) {
-				node.name = `__eclipse$scope(${node.name})`;
+				node.name = `__eclipse$scope.${node.name}`;
 			}
 		},
 

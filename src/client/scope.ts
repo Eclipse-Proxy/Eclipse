@@ -2,7 +2,7 @@ import { createWindowProxy } from "./window.ts";
 import { createLocationProxy } from "./location.ts";
 import { createDocumentProxy } from "./document.ts";
 
-self.__eclipse$scope = (identifier: any): any => {
+function scope(identifier: any): any {
 	const globals: Array<string> = [
 		"window",
 		"self",
@@ -28,4 +28,25 @@ self.__eclipse$scope = (identifier: any): any => {
 	}
 
 	return identifier;
-};
+}
+
+self.__eclipse$scope = new Proxy(
+	{},
+	{
+		get(_target, prop: string) {
+			return scope(self[prop]);
+		},
+        //@ts-ignore
+        set(target, prop, newValue) {
+			if (prop == "location") {
+                //@ts-ignore
+				return (window.location = self.__eclipse$rewrite.url.encode(
+					newValue,
+					window.location.href
+				));
+			}
+			target[prop] = newValue;
+			return true;
+		},
+	}
+);

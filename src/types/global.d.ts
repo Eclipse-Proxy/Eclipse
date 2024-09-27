@@ -43,7 +43,7 @@ declare global {
             };
 			manifest: (code: WebAppManifest, origin: string) => string;
 		};
-        __eclipse$scope: (identifier: any) => any;
+        __eclipse$scope: any;
 		EclipseServiceWorker: any;
 	}
 }
