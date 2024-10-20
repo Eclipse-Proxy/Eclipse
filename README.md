@@ -8,3 +8,4 @@ An interception web proxy.
 - Auth rewrites
 - Better rewrites for "http-equiv"
 - Better error page
+- __eclipse$scope.window.String.prototype is undefined
